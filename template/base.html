@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鲸鱼blog</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/WhaleBLOG.css">
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+
+</head>
+<body>
+<!--顶部logo区域-->
+<div class="header">
+    <div class="container" style="height:80px">
+        <div class="row">
+            <div class="col-5"><img src="/img/WhaleBLOG.png" width="220"></div>
+            <div class="col-7 d-none d-sm-block" style="text-align:right;padding-top: 15px;font-size: 30px"><strong>一念山河成，一念百草生</strong>
+            </div>
+            <div class="col-7 d-sm-none" style="text-align:right;padding-top: 23px;font-size: 20px">
+                <strong>一鲸落万物生</strong></div>
+        </div>
+    </div>
+</div>
+<!--导航栏-->
+<div class="menu">
+    <div class="container" style="padding: 0px">
+
+        <nav class="navbar navbar-expand-lg navbar-dark menu-bar" style="background-color: #7735fa">
+            <a class="navbar-brand">快捷导航</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link " href="/">主页</a>
+                    <a class="nav-item nav-link " href="/article">博客</a>
+                    <a class="nav-item nav-link " href="/type/3-1">个人</a>
+                    <a class="nav-item nav-link " href="/type/4-1">悄悄话</a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-item nav-link " href="#" data-toggle="modal" data-target="#LoginPanel">登录</a>
+                    <a class="nav-item nav-link " href="#" data-toggle="modal" data-target="#RegisterPanel">注册</a>
+                    <a class="nav-item nav-link " href="/type/home">用户中心</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!--主页-->
+<div class="container">
+    <div class="row">
+        {% block content%}
+        {% endblock%}
+</div>
+
+<!--登录窗口-->
+<div class="end" style="height: 100px"></div>
+<div class="modal fade-half modal-open" id="LoginPanel" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="loginlabel" aria-hidden="true" style="border-radius: 0px">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 11px">
+            <div class="modal-header"
+                 style="background-color: #7735fa;border-radius: 0px;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                <h5 class="modal-title" id="loginlabel" style="color:white;font-weight: bold">登录</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 row" style="margin:10px">
+                    <div class="col-3 ml-auto">
+                        <label for="nickname">昵称</label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" type="text" id="nickname"/>
+                    </div>
+                </div>
+                <div class="col-12 row" style="margin:10px">
+                    <div class="col-3 ml-auto">
+                        <label for="password">密码</label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" type="text" id="password"/>
+                    </div>
+                </div>
+                <div class="row" style="padding:20px 10px">
+                    <button type="button" class="btn btn-secondary">登录</button>
+                    <div class=" ml-auto">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary"
+                                data-toggle="modal" data-target="#RegisterPanel" data-dismiss="modal"
+                                style="background-color:#7735fa">没有账号？点我注册
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--注册窗口-->
+<div class="end" style="height: 100px"></div>
+<div class="modal fade modal-open" id="RegisterPanel" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     aria-labelledby="registerlabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 11px">
+            <div class="modal-header"
+                 style="background-color: #7735fa;border-radius: 0px;border-top-left-radius: 10px;border-top-right-radius: 10px;">
+                <h5 class="modal-title" id="registerlabel" style="color:white;font-weight: bold">注册</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:white">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 row" style="margin:10px">
+                    <div class="col-3 ml-auto">
+                        <label for="nickname">昵称</label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" type="text" id="nickname"/>
+                    </div>
+                </div>
+                <div class="col-12 row" style="margin:10px">
+                    <div class="col-3 ml-auto">
+                        <label for="password">密码</label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" type="text" id="password"/>
+                    </div>
+                </div>
+                <div class="col-12 row" style="margin:10px">
+                    <div class="col-3 ml-auto" style="padding:0px">
+                        <label for="num">验证码</label>
+                    </div>
+                    <div class="col-5">
+                        <input class="form-control" type="text" id="num"/>
+                    </div>
+                    <div class="col-4"><img src="#" width="10"></div>
+                </div>
+                <div class="row" style="padding:20px 10px">
+                    <button type="button" class="btn btn-secondary">登录</button>
+                    <div class=" ml-auto">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // 在模态框显示之前添加事件监听器
+        $('#LoginPanel').on('show.bs.modal', function () {
+            // 调用 .modal('handleUpdate') 方法以手动触发模态框的更新
+            $(this).modal('handleUpdate');
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
+{%block content%}
+<!--主页-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-12">
+            <div class="col-12 row artical-detail">
+                <div class="col-9 title">灰姑娘大战商纣王</div>
+                <div class="col-3 favorite">
+                    <label><span class="bi-star" aria-hidden="true"></span>收藏</label>
+                </div>
+                <div class="col-12 info">
+                    作者:李大壮&nbsp;&nbsp;&nbsp;类别:胡说八道&nbsp;&nbsp;&nbsp;
+                    日期:1999-9-9&nbsp;&nbsp;&nbsp;20:08:08&nbsp;&nbsp;&nbsp;
+                    阅读次数:100&nbsp;&nbsp;&nbsp;消耗积分:0
+                </div>
+                <div class="col-12 content div-fix">
+                    在现代都市的一座高科技研究所，有一位年轻的科学家，她被人们称为灰姑娘。她并不是传说中的那个受苦的灰姑娘，而是一位卓越的物理学家和工程师。她的研究领域是时空物理学，她梦想着能够穿越时空，探索宇宙的奥秘。<br/>
+                    一天，当她的实验室里的时空门装置终于完成时，一位陌生的男子突然出现在她面前。他自称为商纣王，古代商朝的统治者，因一念之差而穿越到现代。商纣王是一个残暴而腐化的王者，但他现在需要灰姑娘的科技来改变自己的过去。<br/>
+                    灰姑娘被商纣王的出现吓了一跳，但她的科学家精神告诉她，这是一个前所未有的机会。于是，她同意了商纣王的请求，但条件是商纣王必须帮助她测试时空门装置，确保它的稳定性。<br/>
+                    灰姑娘带着商纣王穿越到了古代商朝的时空。一下子，他们来到了古老而神秘的世界，但在这里，科技和古代文明交汇。<br/>
+                    商纣王发现自己被削弱了，他失去了统治者的力量，但他仍然拥有古代武技的精湛技艺。灰姑娘为他提供了一些现代科技装备，让他变得更加强大。他们决定探索这个时代，寻找改变历史的机会。<br/>
+                    然而，古代不是一个安宁的地方。商纣王和灰姑娘面对着古代的妖怪、巫术和神秘势力。他们必须使用科技和武力，与这些古老力量进行对抗。<br/>
+                    最终，商纣王和灰姑娘发现了一个可以改变他的历史的机会，但它需要一场时空大战。商纣王不再是残暴的统治者，他决定保卫古代商朝，而灰姑娘坚定地认为她的科技能够创造一个更美好的未来。<br/>
+                    于是，两位强大的力量相互对抗，时空开始扭曲，充满了电光火石。灰姑娘的高科技武器和商纣王的古代武技相互交织，天空中爆发出耀眼的光芒。<br/>
+                    在这场惊天动地的大战中，时间与空间不断受到冲击，科技与古代力量纷纷释放出惊人的威力。双方你来我往，战斗如火如荼。<br/>
+                    最终，时空大战进入了高潮，商纣王和灰姑娘的命运交织在一起，他们将决定古代与现代的未来。<br/>
+                    在这场时空大战中，现代科技与古代武力交织在一起，灰姑娘与商纣王的对决成为了一段传奇。他们的故事告诉我们，即使来自不同时代，勇气、智慧和改变的力量永远不会被时光抹去。这是一场天崩地裂的大战，也是一段充满传奇的冒险。
+                </div>
+            </div>
+            <div class="col-12 artical-nav div-fix">
+                版权所有，转载本站文章请注明出处。
+                <div>上一节：<a href="#">小红帽过五关斩六将</a></div>
+                <div>下一节：<a href="#">小矮人温酒斩宿傩</a></div>
+            </div>
+            <!--评论-->
+            <div class="col-12 article-comment div-fix">
+                <div class="col-12 row">
+                    <label for="nickname" style="padding: 10px">昵称</label>
+                    <div class="col-10" style="padding-right: 0px">
+                        <input type="text" id="nickname" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <label for="comment" style="padding: 10px">评论</label>
+                    <div class="col-10" style="padding-right: 0px">
+                        <textarea class="form-control" id="comment" style="height:100px"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-12" style="text-align:right;padding-top:20px">
+                        <button class="btn btn-primary">发表</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%include 'side.html'%}
+{%endblock%}

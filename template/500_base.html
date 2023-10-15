@@ -1,0 +1,10 @@
+{%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
+{%block content%}
+<!--500报错页-->
+<div>error500</div>
+<script>
+  setTimeout(function (){
+    location.href='/';
+  },2000);
+</script>
+{%endblock%}

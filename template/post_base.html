@@ -1,0 +1,33 @@
+{%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
+{%block content%}
+
+    <script type="text/javascript" src="/ue/ueditor.config.js"></script>
+    <script type="text/javascript" src="/ue/ueditor.all.min.js"></script>
+    <script type="text/javascript" src="/ue/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+        var ue = UE.getEditor('content', {
+            initialFrameHeight: 400,
+            autoHeightEnabled: false,
+            toolbars: [
+                ['source', 'undo', 'redo'],
+                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'simpleupload', //单图上传
+                    'insertimage', 'cleardoc',]
+            ]
+        })
+    </script>
+
+<!--标题-->
+<div class="container post" style="margin-top: 20px;padding: 0">
+    <div class="col-12">
+        <div class="row" style="margin-bottom: 15px;padding: 0">
+            <div class="col-2 col-sm-1 title"><label for="ATitle">标题</label></div>
+            <div class="col-10 col-sm-11" style="padding: 0;padding-right: 15px"><input type="text" class="form-control"
+                                                                                        id="ATitle"></div>
+        </div>
+    </div>
+
+    <div class="col-12 ">
+        <script id="content" type="text/plain"></script>
+    </div>
+</div>
+{%endblock%}

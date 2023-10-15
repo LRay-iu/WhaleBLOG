@@ -1,0 +1,120 @@
+body {
+    background-color: #fefefe;
+    font-family: "华文细黑", "JetBrains Mono Medium";
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+div {
+    border-radius: 0;
+    /*border: solid red 1px;*/
+}
+
+.div-fix {
+    border-radius: 10px;
+}
+
+@media (min-width: 1300px) {
+    .container {
+        max-width: 1300px;
+    }
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: #767eef;
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: orange;
+}
+
+.header {
+    border-top: solid 1px grey;
+}
+
+.menu {
+    background-color: #7735fa;
+    border-radius: 0;
+}
+
+.menu .menu-bar a:link {
+    color: white;
+}
+
+.artical-detail {
+    padding: 20px 0px;
+    margin: 10px 0px;
+}
+
+.artical-detail .title {
+    font-size: 24px;
+    color: blueviolet;
+}
+
+.artical-detail .favorite {
+    text-align: right;
+    font-weight: bold;
+    color: grey;
+}
+
+.artical-detail .info {
+    margin-top: 20px;
+    border-bottom: grey solid 1px;
+    line-height: 60px;
+    border-radius: 0px;
+}
+
+.artical-detail .content {
+    border: solid 2px #e5e4e4;
+    padding: 20px;
+    padding-left: 15px;
+    margin-top: 30px;
+}
+
+.artical-nav {
+    border: solid 2px #e5e4e4;
+    padding: 20px 15px;
+}
+
+.article-comment {
+    border: solid 2px #e5e4e4;
+    padding: 15px 5px;
+}
+
+.side {
+    border: solid #cccccc 1px;
+    margin: 5px 0px;
+    padding: 0px;
+    border-radius: 10px;
+}
+
+.side .tip {
+    background-color: #7735fa;
+    height: 42px;
+    color: white;
+    line-height: 42px;
+    font-size: 18px;
+    border-radius: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.side ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+.side ul li {
+    line-height: 35px;
+}
+
+.post .title {
+    text-align: center;
+    padding: 0;
+    padding-top: 9px;
+    font-size: small
+}

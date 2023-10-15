@@ -1,0 +1,10 @@
+{%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
+{%block content%}
+<!--404报错页-->
+<div>您所访问的页面不存在</div>
+<script>
+  setTimeout(function (){
+    location.href='/';
+  },2000);
+</script>
+{%endblock%}
