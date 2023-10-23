@@ -44,38 +44,67 @@ a:hover, a:active {
 .menu .menu-bar a:link {
     color: white;
 }
-
-.artical-detail {
+.article-list {
+    border:solid 1px #cccccc;
+    padding: 15px 0;
+    margin: 10px 0;
+    background-color: whitesmoke;
+}
+.article-list .thumb{
+    padding: 5px 10px 0 10px;
+    margin: 0px;
+}
+.article-list .detail{
+    padding: 0px 10px;
+    margin: 0px;
+}
+.article-list .detail .title{
+    font-size:22px;
+    color:#e56244;
+    margin-bottom: 10px;
+}
+.article-list .detail .info{
+    font-size:14px;
+    color:#666666;
+    margin-bottom: 10px;
+}
+.article-list .detail .intro{
+    font-size:16px;
+    word-break: break-all;
+    word-wrap: break-word;
+    line-height: 25px;
+}
+.article-detail {
     padding: 20px 0px;
     margin: 10px 0px;
 }
 
-.artical-detail .title {
+.article-detail .title {
     font-size: 24px;
     color: blueviolet;
 }
 
-.artical-detail .favorite {
+.article-detail .favorite {
     text-align: right;
     font-weight: bold;
     color: grey;
 }
 
-.artical-detail .info {
+.article-detail .info {
     margin-top: 20px;
     border-bottom: grey solid 1px;
     line-height: 60px;
     border-radius: 0px;
 }
 
-.artical-detail .content {
+.article-detail .content {
     border: solid 2px #e5e4e4;
     padding: 20px;
     padding-left: 15px;
     margin-top: 30px;
 }
 
-.artical-nav {
+.article-nav {
     border: solid 2px #e5e4e4;
     padding: 20px 15px;
 }
