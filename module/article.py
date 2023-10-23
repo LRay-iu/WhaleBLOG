@@ -10,7 +10,7 @@ with app.app_context():
         userid = Column(Integer, ForeignKey('user.userid'), comment='发布者')
         headline = Column(String(100), nullable=False, comment='标题，最长100')
         content = Column(Text, comment='文章内容')
-        thumbnall = Column(String(20), comment='缩略图文件名')
+        thumbnail = Column(String(20), comment='缩略图文件名')
         credit = Column(Integer, default=0, comment='阅读文章所需积分')
         readcount = Column(Integer, default=0, comment='阅读次数')
         replycount = Column(Integer, default=0, comment='回复次数')

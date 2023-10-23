@@ -11,7 +11,7 @@ def home():
     article = Article()
     result = article.find_limit_with_users(0, 10)
     print(result)
-    return render_template('index.html')
+    return render_template('index.html',result=result)
 @index.route('/ar')
 def home2():
     print("hello")

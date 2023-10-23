@@ -32,30 +32,24 @@
             </button>
         </div>
     </div>
+    {%for article,user in result%}
     <div class="col-12 row article-list">
         <div class="col-sm-3 col-3 thumb d-none d-sm-block">
-            <img src="/img/articlePIC.png" class="img-fluid"/>
+            <img src="/img/ArticleThumb/{{article.thumbnail}}" class="img-fluid"/>
         </div>
-        <div class ="col-sm-9 col-xs-12 detail">
-            <div class="title"><a href="#">XXXXX</a></div>
-            <div class="info">作者： 李大壮</div>
-            <div class ="intro">
-                AASDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDasdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        <div class="col-sm-9 col-xs-12 detail">
+            <div class="title"><a href="/article/{{article.articleid}}">{{article.headline}}</a></div>
+            <div class="info">作者:&nbsp;&nbsp;&nbsp;{{user.username}}&nbsp;&nbsp;&nbsp;
+                阅读次数:&nbsp;&nbsp;&nbsp;{{article.readcount}}&nbsp;&nbsp;&nbsp;
+                日期:&nbsp;&nbsp;&nbsp;{{article.createtime}}
+            </div>
+            <div class="intro">
+                {{article.content|striptags|truncate(160)}}
             </div>
         </div>
     </div>
-        <div class="col-12 row article-list">
-        <div class="col-sm-3 col-3 thumb d-none d-sm-block">
-            <img src="/img/articlePIC.png" class="img-fluid"/>
-        </div>
-        <div class ="col-sm-9 col-xs-12 detail">
-            <div class="title"><a href="#">XXXXX</a></div>
-            <div class="info">作者： 李大壮</div>
-            <div class ="intro">
-                AASDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDasdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-            </div>
-        </div>
-    </div>
+    {%endfor%}
+
 </div>
 {%include 'side.html'%}
 {%endblock%}
