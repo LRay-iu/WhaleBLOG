@@ -44,39 +44,54 @@ a:hover, a:active {
 .menu .menu-bar a:link {
     color: white;
 }
+
 .article-list {
-    border:solid 1px #cccccc;
+    border: solid 1px #cccccc;
     padding: 15px 0;
     margin: 10px 0;
     background-color: whitesmoke;
 }
-.article-list .thumb{
+
+.article-list .thumb {
     padding: 5px 10px 0 10px;
     margin: 0px;
 }
-.article-list .detail{
+
+.article-list .detail {
     padding: 0px 10px;
     margin: 0px;
 }
-.article-list .detail .title{
-    font-size:22px;
-    color:#e56244;
+
+.article-list .detail .title {
+    font-size: 22px;
+    color: #e56244;
     margin-bottom: 10px;
 }
-.article-list .detail .info{
-    font-size:14px;
-    color:#666666;
+
+.article-list .detail .info {
+    font-size: 14px;
+    color: #666666;
     margin-bottom: 10px;
 }
-.article-list .detail .intro{
-    font-size:16px;
+
+.article-list .detail .intro {
+    font-size: 16px;
     word-break: break-all;
     word-wrap: break-word;
     line-height: 25px;
 }
+
 .article-detail {
     padding: 20px 0px;
     margin: 10px 0px;
+}
+
+.paginate {
+    background-color: whitesmoke;
+    padding: 20px;
+    border: solid 1px #cccccc;
+    justify-content: center;
+    text-align: center;
 }
 
 .article-detail .title {
@@ -146,4 +161,11 @@ a:hover, a:active {
     padding: 0;
     padding-top: 9px;
     font-size: small
+}
+.navBottom{
+    /*height: 100px;*/
+    background-color: #e5e5e5;
+    padding:10px;
+    margin: 15px;
+    margin-bottom: 0px;
 }

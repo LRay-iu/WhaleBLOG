@@ -26,7 +26,6 @@
 <!--导航栏-->
 <div class="menu">
     <div class="container" style="padding: 0px">
-
         <nav class="navbar navbar-expand-lg navbar-dark menu-bar" style="background-color: #7735fa">
             <a class="navbar-brand">快捷导航</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -50,14 +49,23 @@
     </div>
 </div>
 <!--主页-->
-<div class="container">
-    <div class="row">
-        {% block content%}
-        {% endblock%}
+<div class="container"
+">
+<div class="row">
+    {% block content%}
+    {% endblock%}
 </div>
-
+</div>
+<!--底部导航栏-->
+<div class="text-muted container-fluid footer navBottom">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+  </div>
+</div>
 <!--登录窗口-->
-<div class="end" style="height: 100px"></div>
 <div class="modal fade-half modal-open" id="LoginPanel" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="loginlabel" aria-hidden="true" style="border-radius: 0px">
     <div class="modal-dialog">
@@ -103,7 +111,6 @@
 
 
 <!--注册窗口-->
-<div class="end" style="height: 100px"></div>
 <div class="modal fade modal-open" id="RegisterPanel" data-backdrop="static" data-keyboard="false" tabindex="-1"
      aria-labelledby="registerlabel" aria-hidden="true">
     <div class="modal-dialog">

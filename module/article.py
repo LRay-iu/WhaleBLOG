@@ -2,8 +2,9 @@ from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Foreign
 from main import app
 from common.database import dbconnect
 from module.user import User
-dbsession,DBase=dbconnect()
-with app.app_context():
+
+dbsession, DBase = dbconnect()
+with (app.app_context()):
     class Article(DBase):
         __tablename__ = 'article'
         articleid = Column(Integer, primary_key=True, autoincrement=True, comment='文章编号(唯一)')
@@ -32,6 +33,13 @@ with app.app_context():
         # 指定分页的limit和offset的参数值，同时与与用户表做连接查询
         def find_limit_with_users(self, start, count):
             # select * from article inner join User on user.userid = article.userid order by article.articleid desc limit count offset start
-            result = dbsession.query(Article, User).join(User, User.userid == Article.userid).order_by(
+            result = dbsession.query(Article, User).join(User, User.userid == Article.userid).filter(
+                Article.hidden == 0, Article.drafted == 0, Article.checked == 1).order_by(
                 Article.articleid.desc()).limit(count).offset(start).all()
             return result
+
+        # 统计文章数量
+        def get_total_count(self):
+            count = dbsession.query(Article).filter(
+                Article.hidden == 0, Article.drafted == 0, Article.checked == 1).count()
+            return count
