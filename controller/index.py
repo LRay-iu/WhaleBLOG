@@ -14,8 +14,8 @@ def home():
     result = article.find_limit_with_users(0, 5)
     print(result)
     # 向上取整页数
-    total = math.ceil(article.get_total_count()/5)
-    return render_template('index.html', result=result,total=total,page=1)
+    total = math.ceil(article.get_total_count() / 5)
+    return render_template('index.html', result=result, total=total, page=1)
 
 
 @index.route('/page/<int:page>')
@@ -25,5 +25,14 @@ def paginate(page):
     result = article.find_limit_with_users(start, 5)
     print(result)
     # 向上取整页数
-    total = math.ceil(article.get_total_count()/5)
-    return render_template('index.html', result=result,total=total,page=page)
+    total = math.ceil(article.get_total_count() / 5)
+    return render_template('index.html', result=result, total=total, page=page)
+
+
+@index.route('/search/<int:page>-<keyword>')
+def search(page, keyword):
+    start = (page - 1) * 5
+    article=Article()
+    result=article.find_by_headline(keyword,start,5)
+    total = math.ceil(article.get_count_by_headline(keyword)/5)
+    return render_template('search.html',result=result,page=page,total=total,keyword=keyword)

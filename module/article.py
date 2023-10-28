@@ -33,13 +33,41 @@ with (app.app_context()):
         # 指定分页的limit和offset的参数值，同时与与用户表做连接查询
         def find_limit_with_users(self, start, count):
             # select * from article inner join User on user.userid = article.userid order by article.articleid desc limit count offset start
-            result = dbsession.query(Article, User).join(User, User.userid == Article.userid).filter(
-                Article.hidden == 0, Article.drafted == 0, Article.checked == 1).order_by(
-                Article.articleid.desc()).limit(count).offset(start).all()
+            result = dbsession.query(Article, User).join(User, User.userid == Article.userid) \
+                .filter(Article.hidden == 0,
+                        Article.drafted == 0,
+                        Article.checked == 1) \
+                .order_by(Article.articleid.desc()).limit(count).offset(start).all()
             return result
 
-        # 统计文章数量
+        # 统计文章总数量
         def get_total_count(self):
-            count = dbsession.query(Article).filter(
-                Article.hidden == 0, Article.drafted == 0, Article.checked == 1).count()
+            count = dbsession.query(Article).filter(Article.hidden == 0,
+                                                    Article.drafted == 0,
+                                                    Article.checked == 1).count()
+            return count
+
+        # 根据文章标题进行模糊搜索
+        def find_by_headline(self, headline, start, count):
+            #SELECT *
+            # FROM article JOIN user ON article.userid = user.userid
+            # WHERE article.hidden = 0 AND article.drafted = 0 AND article.checked = 1 AND article.headline LIKE '%s%' ORDER BY article.articleid DESC
+            #  LIMIT 5 OFFSET 0
+            result = dbsession.query(Article, User).join(User, User.userid == Article.userid) \
+                .filter(Article.hidden == 0,
+                        Article.drafted == 0,
+                        Article.checked == 1,
+                        Article.headline.like('%' + headline + '%')) \
+                .order_by(
+                Article.articleid.desc()).limit(count).offset(start).all()
+            #print(str(query.statement.compile(compile_kwargs={"literal_binds": True})))
+            #result=query.all()
+            return result
+
+        # 统计分页总数量
+        def get_count_by_headline(self, headline):
+            count = dbsession.query(Article).filter(Article.hidden == 0,
+                                                    Article.drafted == 0,
+                                                    Article.checked == 1,
+                                                    Article.headline.like('%' + headline + '%'),).count()
             return count
