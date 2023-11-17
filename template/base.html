@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/css/WhaleBLOG.css">
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+    <script type="text/javascript" src="/js/vue.js"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
 
 </head>
@@ -49,21 +51,20 @@
     </div>
 </div>
 <!--主页-->
-<div class="container"
-">
-<div class="row">
-    {% block content%}
-    {% endblock%}
-</div>
+<div class="container">
+    <div class="row">
+        {% block content%}
+        {% endblock%}
+    </div>
 </div>
 <!--底部导航栏-->
 <div class="text-muted container-fluid footer navBottom">
-  <div class="container">
-    <p class="float-right">
-      <a href="#">Back to top</a>
-    </p>
-    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-  </div>
+    <div class="container">
+        <p class="float-right" id="backToTopLink" onclick="gotoTop()"">
+            回到顶部
+        </p>
+        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+    </div>
 </div>
 <!--登录窗口-->
 <div class="modal fade-half modal-open" id="LoginPanel" data-backdrop="static" data-keyboard="false" tabindex="-1"
@@ -149,7 +150,7 @@
                     <div class="col-4"><img src="#" width="10"></div>
                 </div>
                 <div class="row" style="padding:20px 10px">
-                    <button type="button" class="btn btn-secondary">登录</button>
+                    <button type="button" class="btn btn-secondary">注册</button>
                     <div class=" ml-auto">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                     </div>
@@ -167,6 +168,10 @@
             $(this).modal('handleUpdate');
         });
     });
+    function gotoTop(){
+        $('html,body').animate({scrollTop:0},400);
+        return false
+    }
 </script>
 </body>
 </html>

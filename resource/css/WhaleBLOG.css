@@ -131,8 +131,10 @@ a:hover, a:active {
 
 .side {
     border: solid #cccccc 1px;
-    margin: 5px 0px;
+    margin-top: 10px;
+    /*margin-right: 10px;*/
     padding: 0px;
+    /*padding-right: 10px;*/
     border-radius: 10px;
 }
 
@@ -168,4 +170,14 @@ a:hover, a:active {
     padding:10px;
     margin: 15px;
     margin-bottom: 0px;
+}
+/* 默认颜色 */
+#backToTopLink {
+    color: #7735fa;
+    cursor: pointer;
+}
+
+/* 鼠标悬停时的颜色变化 */
+#backToTopLink:hover {
+    color: #ffb700; /* 更改悬停时的颜色 */
 }

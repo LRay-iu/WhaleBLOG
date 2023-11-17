@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, func
 from main import app
 from common.database import dbconnect
 from module.user import User
@@ -71,3 +71,34 @@ with (app.app_context()):
                                                     Article.checked == 1,
                                                     Article.headline.like('%' + headline + '%'),).count()
             return count
+        #最新文章
+        def find_last_9(self):
+            result = dbsession.query(Article.articleid,Article.headline).\
+                filter(Article.hidden == 0,
+                        Article.drafted == 0,
+                        Article.checked == 1) \
+                .order_by(Article.articleid.desc()).limit(9).all()
+            return result
+        #最多阅读
+        def find_most_9(self):
+            result = dbsession.query(Article.articleid,Article.headline).\
+                filter(Article.hidden == 0,
+                        Article.drafted == 0,
+                        Article.checked == 1) \
+                .order_by(Article.readcount.desc()).limit(9).all()
+            return result
+        #特别推荐
+        def find_recommended_9(self):
+            result = dbsession.query(Article.articleid,Article.headline).\
+                filter(Article.hidden == 0,
+                        Article.drafted == 0,
+                        Article.checked == 1,
+                        Article.recommended==1)\
+                .order_by(func.rand()).limit(9).all()
+            return result
+        #一次性返回
+        def find_last_most_recommended(self):
+            last = self.find_last_9()
+            most = self.find_most_9()
+            recommended = self.find_recommended_9()
+            return last,most,recommended

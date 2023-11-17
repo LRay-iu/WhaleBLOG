@@ -21,8 +21,24 @@ def page_not_found(e):
 @app.errorhandler(500)
 def server_error(e):
     return render_template('500_base.html')
-
-
+def mytruncate(s,length,end='...'):
+    # 中文定义为一个字符，英文为0.5个字符
+    # 遍历整个字符串，获取到每一个字符的ASCII码，如果是（0-127或256），则认为是英文，否则当作中文处理
+    count = 0
+    new = ''
+    if len(s) <= 14:
+        end = ''
+    for c in s:
+        new += c  # 每循环一次，添加一个字符到n
+        if ord(c) <= 128:
+            count += 0.5
+        else:
+            count += 1
+        if count > length:
+            break
+    return new + end
+#注册mytruncate过滤器
+app.jinja_env.filters.update(mytruncate=mytruncate)
 
 if __name__ == '__main__':
     from controller.index import *
