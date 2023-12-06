@@ -37,6 +37,26 @@ def mytruncate(s,length,end='...'):
         if count > length:
             break
     return new + end
+@app.before_request
+def before():
+    from module.user import User
+    url = request.path
+    pass_list=['/user','/login','/logout']
+    if url in pass_list or url.endswith('.js') or url.endswith('.jpg'):
+        pass
+    elif session.get('islogin') is None:
+        username = request.cookies.get('username')
+        password = request.cookies.get('password')
+        if username != None and password !=None :
+            user =User()
+            result = user.find_by_username(username)
+            if len(result) == 1 and result[0].password == password:
+                session['islogin'] = 'true'
+                session['userid'] = result[0].userid
+                session['username'] = result[0].username
+                session['nickname'] = result[0].nickname
+                session['role'] = result[0].role
+
 #注册mytruncate过滤器
 app.jinja_env.filters.update(mytruncate=mytruncate)
 
@@ -44,6 +64,9 @@ if __name__ == '__main__':
     from controller.index import *
 
     app.register_blueprint(index)
+    from controller.user import *
+
+    app.register_blueprint(user)
 
     app.run(debug=True, port=8080)
 

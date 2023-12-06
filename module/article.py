@@ -6,21 +6,21 @@ from module.user import User
 dbsession, DBase = dbconnect()
 with (app.app_context()):
     class Article(DBase):
-        __tablename__ = 'article'
+        __tableName__ = 'article'
         articleid = Column(Integer, primary_key=True, autoincrement=True, comment='文章编号(唯一)')
         userid = Column(Integer, ForeignKey('user.userid'), comment='发布者')
         headline = Column(String(100), nullable=False, comment='标题，最长100')
         content = Column(Text, comment='文章内容')
         thumbnail = Column(String(20), comment='缩略图文件名')
         credit = Column(Integer, default=0, comment='阅读文章所需积分')
-        readcount = Column(Integer, default=0, comment='阅读次数')
-        replycount = Column(Integer, default=0, comment='回复次数')
+        readCount = Column(Integer, default=0, comment='阅读次数')
+        replyCount = Column(Integer, default=0, comment='回复次数')
         recommended = Column(Boolean, default=False, comment='是否设置为推荐文章')
         hidden = Column(Boolean, default=False, comment='文章是否被隐藏')
         drafted = Column(Boolean, default=False, comment='文章是否为草稿')
         checked = Column(Boolean, default=True, comment='是否已被审核')
-        createtime = Column(DateTime, comment='数据新增时间')
-        updatetime = Column(DateTime, comment='数据修改时间')
+        createTime = Column(DateTime, comment='数据新增时间')
+        updateTime = Column(DateTime, comment='数据修改时间')
 
         def find_all(self):
             row = dbsession.query(Article).all()
@@ -85,7 +85,7 @@ with (app.app_context()):
                 filter(Article.hidden == 0,
                         Article.drafted == 0,
                         Article.checked == 1) \
-                .order_by(Article.readcount.desc()).limit(9).all()
+                .order_by(Article.readCount.desc()).limit(9).all()
             return result
         #特别推荐
         def find_recommended_9(self):
