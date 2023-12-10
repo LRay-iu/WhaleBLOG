@@ -1,37 +1,46 @@
 {%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
 {%block content%}
 <!--主页-->
-<div class="container">
+<div class="container article-detail">
     <div class="row">
         <div class="col-sm-9 col-12">
-            <div class="col-12 row article-detail">
-                <div class="col-9 title">灰姑娘大战商纣王</div>
+            <div class="col-12 row article-detail" style="margin-bottom: 0px">
+                <div class="col-9 title">
+                    {{article.headline}}
+                </div>
                 <div class="col-3 favorite">
-                    <label><span class="bi-star" aria-hidden="true"></span>收藏</label>
+                    {% if is_favorite ==True %}
+                    <label class="cancel-btn" onclick="cancelFavorite('{{article.articleid}}')"><span class="iconfont">&#xe6d3;</span>&nbsp;&nbsp;已收藏</label>
+                    {% else %}
+                    <label class="favorite-btn" onclick="addFavorite('{{article.articleid}}')"><span class="iconfont">&#xe7bb;</span>&nbsp;&nbsp;收藏本文</label>
+                    {% endif %}
                 </div>
                 <div class="col-12 info">
-                    作者:李大壮&nbsp;&nbsp;&nbsp;类别:胡说八道&nbsp;&nbsp;&nbsp;
-                    日期:1999-9-9&nbsp;&nbsp;&nbsp;20:08:08&nbsp;&nbsp;&nbsp;
-                    阅读次数:100&nbsp;&nbsp;&nbsp;消耗积分:0
+                    作者&nbsp;:&nbsp;{{article.nickname}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    日期&nbsp;:&nbsp;{{article.createTime}}&nbsp;&nbsp;&nbsp;
+                    阅读次数&nbsp;:&nbsp;{{article.readCount}}&nbsp;&nbsp;&nbsp;消耗积分&nbsp;:&nbsp;{{article.credit}}
                 </div>
-                <div class="col-12 content div-fix">
-                    在现代都市的一座高科技研究所，有一位年轻的科学家，她被人们称为灰姑娘。她并不是传说中的那个受苦的灰姑娘，而是一位卓越的物理学家和工程师。她的研究领域是时空物理学，她梦想着能够穿越时空，探索宇宙的奥秘。<br/>
-                    一天，当她的实验室里的时空门装置终于完成时，一位陌生的男子突然出现在她面前。他自称为商纣王，古代商朝的统治者，因一念之差而穿越到现代。商纣王是一个残暴而腐化的王者，但他现在需要灰姑娘的科技来改变自己的过去。<br/>
-                    灰姑娘被商纣王的出现吓了一跳，但她的科学家精神告诉她，这是一个前所未有的机会。于是，她同意了商纣王的请求，但条件是商纣王必须帮助她测试时空门装置，确保它的稳定性。<br/>
-                    灰姑娘带着商纣王穿越到了古代商朝的时空。一下子，他们来到了古老而神秘的世界，但在这里，科技和古代文明交汇。<br/>
-                    商纣王发现自己被削弱了，他失去了统治者的力量，但他仍然拥有古代武技的精湛技艺。灰姑娘为他提供了一些现代科技装备，让他变得更加强大。他们决定探索这个时代，寻找改变历史的机会。<br/>
-                    然而，古代不是一个安宁的地方。商纣王和灰姑娘面对着古代的妖怪、巫术和神秘势力。他们必须使用科技和武力，与这些古老力量进行对抗。<br/>
-                    最终，商纣王和灰姑娘发现了一个可以改变他的历史的机会，但它需要一场时空大战。商纣王不再是残暴的统治者，他决定保卫古代商朝，而灰姑娘坚定地认为她的科技能够创造一个更美好的未来。<br/>
-                    于是，两位强大的力量相互对抗，时空开始扭曲，充满了电光火石。灰姑娘的高科技武器和商纣王的古代武技相互交织，天空中爆发出耀眼的光芒。<br/>
-                    在这场惊天动地的大战中，时间与空间不断受到冲击，科技与古代力量纷纷释放出惊人的威力。双方你来我往，战斗如火如荼。<br/>
-                    最终，时空大战进入了高潮，商纣王和灰姑娘的命运交织在一起，他们将决定古代与现代的未来。<br/>
-                    在这场时空大战中，现代科技与古代武力交织在一起，灰姑娘与商纣王的对决成为了一段传奇。他们的故事告诉我们，即使来自不同时代，勇气、智慧和改变的力量永远不会被时光抹去。这是一场天崩地裂的大战，也是一段充满传奇的冒险。
+                <div class="col-12 content div-fix" id="content">
+                    {{article.content | safe}}
                 </div>
             </div>
+            {%if article.credit>0 and payed ==False %}
+            <div class="col-12 readall">
+                {%if session.get('islogin')=='true'%}
+                <button class="col-sm-10 col-12" onclick="readall()">
+                    <span class="iconfont">&#xe7c5;</span>&nbsp;&nbsp;&nbsp;阅读全文&nbsp;&nbsp;&nbsp;消耗积分&nbsp;:&nbsp;&nbsp;{{article.credit}}
+                </button>
+                {% else %}
+                <button class="col-sm-10 col-12" onclick="showLogin()">
+                    <span class="iconfont">&#xe7c5;</span>&nbsp;&nbsp;&nbsp;您还未登录，登陆后可阅读全文
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
             <div class="col-12 article-nav div-fix">
                 版权所有，转载本站文章请注明出处。
-                <div>上一节：<a href="#">小红帽过五关斩六将</a></div>
-                <div>下一节：<a href="#">小矮人温酒斩宿傩</a></div>
+                <div>上一节：<a href="/article/{{prev_next.prev_id}}">{{prev_next.prev_headline}}</a></div>
+                <div>下一节：<a href="/article/{{prev_next.next_id}}">{{prev_next.next_headline}}</a></div>
             </div>
             <!--评论-->
             <div class="col-12 article-comment div-fix">
@@ -54,5 +63,52 @@
                 </div>
             </div>
         </div>
-        {%include 'side.html'%}
-{%endblock%}
+    <script>
+        function readall() {
+            var param = 'articleid={{article.articleid}}&position={{position}}';
+            $.post('/readall', param, function (data) {
+                $("#content").append(data);
+                $(".readall").hide()
+            })
+        }
+
+        function addFavorite(articleid) {
+            $.post('/favorite', 'articleid=' + articleid, function (data) {
+                    if (data == 'not-login') {
+                        bootbox.alert({'title': "错误提示", "message": "您还没有登录，不能收藏文章"});
+                    } else if (data == 'favorite-pass') {
+                        bootbox.alert({'title': "信息提示", "message": "收藏成功，可在我的收藏中查看"});
+                        //修改菜单为感谢收藏
+                        $(".favorite-btn").html("<span class=\"iconfont\">&#xe6d3;</span>&nbsp;&nbsp;感谢收藏")
+                        //取消收藏按钮的单击事件
+                        $(".favorite-btn").attr('onclick', '').unbind('click')
+                    } else {
+                        bootbox.alert({'title': "错误提示", "message": "收藏文章失败，请联系管理员"});
+                    }
+
+                }
+            )
+        }
+
+        function cancelFavorite(articleid) {
+            $.ajax({
+                url: '/favorite/' + articleid,
+                type: 'delete',
+                success: function (data) {
+                    if (data == 'not-login') {
+                        bootbox.alert({'title': "错误提示", "message": "您还没有登录，不能收藏文章"});
+                    } else if (data == 'cancel-pass') {
+                        bootbox.alert({'title': "信息提示", "message": "取消收藏成功"});
+                        //修改菜单为感谢收藏
+                        $(".cancel-btn").html("<span class=\"iconfont\">&#xe7bb;</span>&nbsp;&nbsp;取消收藏")
+                        //取消收藏按钮的单击事件
+                        $(".cancel-btn").attr('onclick', '').unbind('click')
+                    } else if (data == 'cancel-fail') {
+                        bootbox.alert({'title': "错误提示", "message": "取消收藏失败，请联系管理员"});
+                    }
+                }
+            });
+        }
+    </script>
+    {%include 'side.html'%}
+    {%endblock%}

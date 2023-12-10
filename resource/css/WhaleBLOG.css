@@ -127,6 +127,7 @@ a:hover, a:active {
 .article-comment {
     border: solid 2px #e5e4e4;
     padding: 15px 5px;
+    margin-top: 20px;
 }
 
 .side {
@@ -180,4 +181,29 @@ a:hover, a:active {
 /* 鼠标悬停时的颜色变化 */
 #backToTopLink:hover {
     color: #ffb700; /* 更改悬停时的颜色 */
+}
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1701913170862') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 15px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.article-detail .readall{
+    margin:0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.article-detail .readall button{
+    height:45px;
+    background-color:#7735fa ;
+    border: 0;
+    border-radius: 5px;
+    color:white;
+    font-weight: bold;
 }
