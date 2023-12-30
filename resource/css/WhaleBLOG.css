@@ -124,11 +124,6 @@ a:hover, a:active {
     padding: 20px 15px;
 }
 
-.article-comment {
-    border: solid 2px #e5e4e4;
-    padding: 15px 5px;
-    margin-top: 20px;
-}
 
 .side {
     border: solid #cccccc 1px;
@@ -165,13 +160,15 @@ a:hover, a:active {
     padding-top: 9px;
     font-size: small
 }
-.navBottom{
+
+.navBottom {
     /*height: 100px;*/
     background-color: #e5e5e5;
-    padding:10px;
+    padding: 10px;
     margin: 15px;
     margin-bottom: 0px;
 }
+
 /* 默认颜色 */
 #backToTopLink {
     color: #7735fa;
@@ -182,28 +179,101 @@ a:hover, a:active {
 #backToTopLink:hover {
     color: #ffb700; /* 更改悬停时的颜色 */
 }
+
 @font-face {
-  font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1701913170862') format('truetype');
+    font-family: "iconfont"; /* Project id  */
+    src: url('iconfont.woff2?t=1702608366274') format('woff2'),
+    url('iconfont.woff?t=1702608366274') format('woff'),
+    url('iconfont.ttf?t=1702608366274') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 15px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: "iconfont" !important;
+    font-size: 15px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-.article-detail .readall{
-    margin:0;
+
+.article-detail .readall {
+    margin: 0;
     margin-bottom: 20px;
     text-align: center;
 }
-.article-detail .readall button{
-    height:45px;
-    background-color:#7735fa ;
+
+.article-detail .readall button {
+    height: 45px;
+    background-color: #7735fa;
     border: 0;
     border-radius: 5px;
-    color:white;
+    color: white;
     font-weight: bold;
+}
+
+.article-comment {
+    border: solid 2px #e5e5e5;
+    margin: 10px 0px;
+    background-color: #fdf9ff;
+    padding: 20px 0px 10px 0px;
+    line-height: 35px;
+}
+.article-reply {
+    border-top: solid 2px #e5e5e5;
+    border-radius: 0;
+    margin: 5px 0px;
+    background-color: #fdf9ff;
+    padding: 12px 0px 10px 0px;
+    line-height: 25px;
+}
+.article-comment .icon {
+    display: flex;
+    justify-content: center;
+}
+
+.article-comment .icon img {
+    /* 如果需要固定宽度和高度，可以添加以下样式 */
+    width: 50px; /* 替换为你期望的宽度 */
+    height: 50px; /* 替换为你期望的高度 */
+}
+.article-comment .reply-icon {
+    display: flex;
+    justify-content: center;
+}
+.article-comment .reply-icon img {
+    /* 如果需要固定宽度和高度，可以添加以下样式 */
+    width: 35px; /* 替换为你期望的宽度 */
+    height: 35px; /* 替换为你期望的高度 */
+}
+.article-comment .comment {
+    padding: 0px 0px;
+}
+
+.article-comment .comment .commenter {
+    font-size: 14px;
+    color: #666666;
+}
+
+.article-comment .comment .content {
+    font-size: 16px;
+    padding-left: 0px;
+    border: solid 0px #e5e4e4;
+    border-top: solid 1px #e5e4e4;
+    padding: 0px;
+    margin-top: 0px;
+    /*color: #666666;*/
+}
+
+.article-comment .comment .reply {
+    font-align: right;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+    /*color: #666666;*/
+}
+
+.article-comment .comment .reply label {
+    font-weight: normal;
+    color: #337AB7;
+    cursor: pointer;
+    /*color: #666666;*/
 }

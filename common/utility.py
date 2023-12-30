@@ -2,18 +2,18 @@ import random, string
 from email.header import Header
 from email.mime.text import MIMEText
 from io import BytesIO
-from smtplib import SMTP_SSL,SMTP
+from smtplib import SMTP_SSL, SMTP
 
 from PIL import Image, ImageFont, ImageDraw
 
 
 def send_email(receiver, ecode):
     sender = 'WhaleBLOG<WhaleBLOG@163.com>'
-    content = f"<br/>欢迎注册鲸鱼blog系统账号，您的邮箱验证码为:"\
+    content = f"<br/>欢迎注册鲸鱼blog系统账号，您的邮箱验证码为:" \
               f"<span style='color:red;font-size:20px;'>{ecode}</span>," \
               f"请复制到注册窗口中完成注册，感谢您的支持<br/>"
     message = MIMEText(content, 'html', 'utf-8')
-    message['Subject'] = Header('鲸鱼blog的注册验证码','utf-8')
+    message['Subject'] = Header('鲸鱼blog的注册验证码', 'utf-8')
     message['From'] = sender
     message['To'] = receiver
     smtpObj = SMTP_SSL('smtp.163.com', 994)
@@ -22,9 +22,11 @@ def send_email(receiver, ecode):
     smtpObj.close()
     # print("finish")
 
+
 def gen_email_code():
-    str=random.sample(string.ascii_letters+string.digits,6)
+    str = random.sample(string.ascii_letters + string.digits, 6)
     return ''.join(str)
+
 
 class imageCode:
     # 生成随机颜色
@@ -77,6 +79,23 @@ class imageCode:
         # 从内存中读取上一步存储的验证码图片
         bstring = buf.getvalue()
         return code, bstring
+
+
+# Sqlalchemy连接查询两张表的结果集并转换成[{},{}]
+def model_join_list(result):
+    list = []
+    for obj1, obj2 in result:
+        dict = {}
+        for k1, v1 in obj1.__dict__.items():
+            if not k1.startswith('_sa_instance_state'):
+                if not k1 in dict:
+                    dict[k1] = v1
+        for k2, v2 in obj2.__dict__.items():
+            if not k2.startswith('_sa_instance_state'):
+                if not k2 in dict:
+                    dict[k2] = v2
+        list.append(dict)
+    return list
 
 # code=gen_email_code()
 # print(code)

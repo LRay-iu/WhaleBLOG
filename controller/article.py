@@ -1,6 +1,9 @@
+import math
+
 from flask import Blueprint, abort, render_template, request
 
 from module.article import Article
+from module.comment import Comment
 from module.credit import Credit
 from module.favorite import Favorite
 from module.user import User
@@ -12,10 +15,10 @@ article = Blueprint("article", __name__)
 def read(articleid):
     # 数据格式(<Article 47>, 'anqixu704')
     result = Article().find_by_id(articleid)
-    print(result)
+    # print(result)
     if result is None:
         abort(404)
-    print(result[0])
+    # print(result[0])
     # 文章内容减半
     dict = {}
     for k, v in result[0].__dict__.items():
@@ -39,11 +42,21 @@ def read(articleid):
         # 找不到文章抛出异常404
         Article().update_read_count(articleid)
         is_favorite = Favorite().check_favorite(articleid)
+        #获取当前文章的上一页和下一页
         prev_next = Article().find_prev_next_by_id(articleid)
+        #获取当前文章对应的评论
+        comment_user = Comment().find_limit_with_user(articleid,0,10)
+        print('comment_user')
+        # print(comment_user)
+        comment_list = Comment().get_comment_user_list(articleid,0,50)
+        # print(comment_list)
+        comment_count = Comment().get_count_by_article(articleid)
+        total = math.ceil(comment_count/10)
         return render_template('article_user.html',
                                article=dict, position=position, payed=payed,
-                               is_favorite=is_favorite, prev_next=prev_next)
+                               is_favorite=is_favorite, prev_next=prev_next,comment_list=comment_list,total=total)
     except Exception as e:
+        print('文章报错')
         print(e)
         abort(500)
 
@@ -51,7 +64,6 @@ def read(articleid):
 @article.route('/readall', methods=['POST'])
 def read_all():
     position = int(request.form.get('position'))
-    print(position)
     articleid = request.form.get('articleid')
     article = Article()
     result = article.find_by_id(articleid)
@@ -61,3 +73,7 @@ def read_all():
     # 扣除用户表剩余积分
     User().update_credit(credit=-1 * result[0].credit)
     return content
+
+@article.route('/prepost')
+def add_article():
+    return render_template('post_user.html')

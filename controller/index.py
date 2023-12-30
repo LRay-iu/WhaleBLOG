@@ -12,6 +12,7 @@ index = Blueprint("index", __name__)
 def home():
     article = Article()
     result = article.find_limit_with_users(0, 5)
+    print('首页')
     print(result)
     last,most,recommended=article.find_last_most_recommended()
     # 向上取整页数

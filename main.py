@@ -1,3 +1,8 @@
+# Created by Pycharm
+# User:LRay-iu
+# Date:2023/10/23
+# 项目名：鲸鱼博客，可以理解为一个论坛
+
 from flask import Flask, render_template, request, session, make_response
 import os
 from flask_sqlalchemy import SQLAlchemy
@@ -78,5 +83,11 @@ if __name__ == '__main__':
 
     from controller.favorite import *
     app.register_blueprint(favorite)
+
+    from controller.comment import *
+    app.register_blueprint(comment)
+
+    from controller.ueditor import *
+    app.register_blueprint(ueditor)
 
     app.run(debug=True, port=8080)

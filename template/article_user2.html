@@ -1,0 +1,257 @@
+{%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
+{%block content%}
+<!--主页-->
+<div class="container article-detail">
+    <div class="row">
+        <div class="col-sm-9 col-12">
+            <div class="col-12 row article-detail" style="margin-bottom: 0px">
+                <div class="col-9 title">
+                    {{article.headline}}
+                </div>
+                <div class="col-3 favorite">
+                    {% if is_favorite ==True %}
+                    <label class="cancel-btn" onclick="cancelFavorite('{{article.articleid}}')"><span class="iconfont">&#xe6d3;</span>&nbsp;&nbsp;已收藏</label>
+                    {% else %}
+                    <label class="favorite-btn" onclick="addFavorite('{{article.articleid}}')"><span class="iconfont">&#xe7bb;</span>&nbsp;&nbsp;收藏本文</label>
+                    {% endif %}
+                </div>
+                <div class="col-12 info">
+                    作者&nbsp;:&nbsp;{{article.nickname}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    日期&nbsp;:&nbsp;{{article.createTime}}&nbsp;&nbsp;&nbsp;
+                    阅读次数&nbsp;:&nbsp;{{article.readCount}}&nbsp;&nbsp;&nbsp;消耗积分&nbsp;:&nbsp;{{article.credit}}
+                </div>
+                <div class="col-12 content div-fix" id="content">
+                    {{article.content | safe}}
+                </div>
+            </div>
+            {%if article.credit>0 and payed ==False %}
+            <div class="col-12 readall">
+                {%if session.get('islogin')=='true'%}
+                <button class="col-sm-10 col-12" onclick="readall()">
+                    <span class="iconfont">&#xe7c5;</span>&nbsp;&nbsp;&nbsp;阅读全文&nbsp;&nbsp;&nbsp;消耗积分&nbsp;:&nbsp;&nbsp;{{article.credit}}
+                </button>
+                {% else %}
+                <button class="col-sm-10 col-12" onclick="showLogin()">
+                    <span class="iconfont">&#xe7c5;</span>&nbsp;&nbsp;&nbsp;您还未登录，登陆后可阅读全文
+                </button>
+                {% endif %}
+            </div>
+            {% endif %}
+            <div class="col-12 article-nav div-fix">
+                版权所有，转载本站文章请注明出处。
+                <div>上一节：<a href="/article/{{prev_next.prev_id}}">{{prev_next.prev_headline}}</a></div>
+                <div>下一节：<a href="/article/{{prev_next.next_id}}">{{prev_next.next_headline}}</a></div>
+            </div>
+            <!--评论-->
+            <div class="col-12 article-comment div-fix">
+                <div class="col-12 row" style="padding: 0px">
+                    <div class="col-2 icon"><label for="comment" style="padding: 0px;margin:0px">评论</label></div>
+                    <div class="col-10" style="padding: 0px">
+                        <textarea class="form-control" id="comment" style="height:100px"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 row">
+                    <div class="col-12" style="text-align:right;padding-top:20px">
+                        {% if session.get('islogin')=='true'%}
+                        <button class="btn btn-primary" onclick="addComment('{{article.articleid}}')" id="submitBtn">
+                            发表
+                        </button>
+                        <button class="btn btn-primary" onclick="replyComment('{{article.articleid}}')"
+                                style="display:none;"
+                                id="replyBtn">回复
+                        </button>
+                        {% else %}
+                        <button class="btn btn-primary" onclick="showLogin()">登录
+                        </button
+                                {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% for comment in comment_list %}
+            <div class="col-12 row article-comment div-fix">
+                <div class="col-2 icon">
+                    <img src="/avator/{{comment.avatar}}" class="img-fluid"/>
+                </div>
+                <div class="col-10 comment">
+                    <div class="col-12 row" style="padding: 0px">
+                        <div class="col-6 commenter">{{comment.nickname}}&nbsp;&nbsp;&nbsp;{{comment.createTime}}</div>
+                        <div class="col-6 reply">
+                            {% if comment.userid ==session.get('userid') or
+                            session.get('role') == 'admin' or
+                            comment.userid == session.get('userid')%}
+                            <label onclick="gotoReply('{{comment.commentid}}')">
+                                <span class="iconfont">&#xe7a0;</span>回复
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <span class="iconfont">&#xe630;</span>&nbsp;赞成(<span>{{comment.agreeacount}}</span>)
+                            </label>&nbsp;&nbsp;&nbsp;
+                            {% else %}
+                            <label onclick="gotoReply('{{comment.commentid}}')">
+                                <span class="iconfont">&#xe7a0;</span>回复
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label onclick="hideComment(this,'{{comment.commentid}}')">
+                                <span class="iconfont">&#xe7a3;</span>隐藏
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <span class="iconfont">&#xe630;</span>&nbsp;赞成(<span>{{comment.agreeacount}}</span>)
+                            </label>&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <span class="iconfont">&#xe64c;</span>&nbsp;反对(<span>{{comment.opposement}}</span>)
+                            </label>
+                            {% endif%}
+                        </div>
+                    </div>
+                    <div class="col-12 content">
+                        {{comment.content}}
+                    </div>
+                    <!--评论的回复-->
+
+                    <div class="col-12 row article-reply div-fix">
+                        <div class="col-1 reply-icon">
+                            <img src="/avator/{{comment.avatar}}" class="img-fluid"/>
+                        </div>
+                        <div class="col-11 comment">
+                            <div class="col-12 row" style="padding: 0px">
+                                <div class="col-6 commenter">{{comment.nickname}}&nbsp;&nbsp;&nbsp;{{comment.createTime}}</div>
+                                <div class="col-6 reply">
+                                    <!--回复-->
+                                    <label onclick="gotoReply('{{comment.commentid}}')">
+                                        <span class="iconfont">&#xe7a0;</span>
+                                    </label>&nbsp;&nbsp;&nbsp;
+                                    <!--隐藏-->
+                                    <label onclick="hideComment(this,'{{comment.commentid}}')">
+                                        <span class="iconfont">&#xe7a3;</span>
+                                    </label>&nbsp;&nbsp;&nbsp;
+                                    <label>
+                                        <!--赞成-->
+                                        <span class="iconfont">&#xe630;</span>&nbsp;(<span>{{comment.agreeacount}}</span>)
+                                    </label>&nbsp;&nbsp;&nbsp;
+                                    <label>
+                                        <!--反对-->
+                                        <span class="iconfont">&#xe64c;</span>&nbsp;(<span>{{comment.opposement}}</span>)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12 content">
+                                {{comment.content}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            function readall() {
+                var param = 'articleid={{article.articleid}}&position={{position}}';
+                $.post('/readall', param, function (data) {
+                    $("#content").append(data);
+                    $(".readall").hide()
+                })
+            }
+
+            function addFavorite(articleid) {
+                $.post('/favorite', 'articleid=' + articleid, function (data) {
+                        if (data == 'not-login') {
+                            bootbox.alert({'title': "错误提示", "message": "您还没有登录，不能收藏文章"});
+                        } else if (data == 'favorite-pass') {
+                            bootbox.alert({'title': "信息提示", "message": "收藏成功，可在我的收藏中查看"});
+                            //修改菜单为感谢收藏
+                            $(".favorite-btn").html("<span class=\"iconfont\">&#xe6d3;</span>&nbsp;&nbsp;已收藏")
+                            // location.reload()
+                            //取消收藏按钮的单击事件
+                            $(".favorite-btn").attr('onclick', '').unbind('click')
+                        } else {
+                            bootbox.alert({'title': "错误提示", "message": "收藏文章失败，请联系管理员"});
+                        }
+
+                    }
+                )
+            }
+
+            function cancelFavorite(articleid) {
+                $.ajax({
+                    url: '/favorite/' + articleid,
+                    type: 'delete',
+                    success: function (data) {
+                        if (data == 'not-login') {
+                            bootbox.alert({'title': "错误提示", "message": "您还没有登录，不能收藏文章"});
+                        } else if (data == 'cancel-pass') {
+                            bootbox.alert({'title': "信息提示", "message": "取消收藏成功"});
+                            //修改菜单为感谢收藏
+                            $(".cancel-btn").html("<span class=\"iconfont\">&#xe7bb;</span>&nbsp;&nbsp;收藏本文")
+                            // location.reload()
+                            //取消收藏按钮的单击事件
+                            $(".cancel-btn").attr('onclick', '').unbind('click')
+                        } else if (data == 'cancel-fail') {
+                            bootbox.alert({'title': "错误提示", "message": "取消收藏失败，请联系管理员"});
+                        }
+                    }
+                });
+            }
+
+            function addComment(articleid) {
+                var content = $.trim($("#comment").val());
+                if (content.length < 5 || content.length > 1000) {
+                    bootbox.alert({'title': "错误提示", "message": "评论请在5-1000字之间"});
+                    return false;
+                }
+                var param = 'articleid=' + articleid + '&content=' + content;
+                $.post('/comment', param, function (data) {
+                    if (data == 'content-invalid') {
+                        bootbox.alert({'title': "错误提示", "message": "评论请在5-1000字之间"});
+                        return false;
+                    } else if (data == 'add-limit') {
+                        bootbox.alert({'title': "错误提示", "message": "今日评论已达上限"});
+                        return false;
+                    } else if (data == 'add-pass') {
+                        location.reload()
+                    } else if (data == 'not-login') {
+                        bootbox.alert({'title': "错误提示", "message": "您还未登录！"});
+                        return false;
+                    } else {
+                        bootbox.alert({'title': "错误提示", "message": "评论失败，请联系管理员"});
+                    }
+                })
+            }
+
+            var COMMENTID = 0;
+
+            function gotoReply(commentid) {
+                $("#replyBtn").show();
+                $("#submitBtn").hide();
+                $("#nickname").val("请在此回复编号为" + commentid + "的评论");
+                $("#comment").focus();
+                COMMENTID = commentid;
+            }
+
+            function replyComment(articleid) {
+                var content = $.trim($("#comment").val());
+                if (content.length < 5 || content.length > 1000) {
+                    bootbox.alert({'title': "错误提示", "message": "评论请在5-1000字之间"});
+                    return false;
+                }
+                var param = 'articleid=' + articleid;
+                param += '&content=' + content;
+                param += '&commentid=' + COMMENTID;
+                $.post('/reply', param, function (data) {
+                    if (data == 'content-invalid') {
+                        bootbox.alert({'title': "错误提示", "message": "评论请在5-1000字之间"});
+                        return false;
+                    } else if (data == 'add-limit') {
+                        bootbox.alert({'title': "错误提示", "message": "今日评论已达上限"});
+                        return false;
+                    } else if (data == 'add-pass') {
+                        location.reload()
+                    } else if (data == 'not-login') {
+                        bootbox.alert({'title': "错误提示", "message": "您还未登录！"});
+                        return false;
+                    } else {
+                        bootbox.alert({'title': "错误提示", "message": "评论失败，请联系管理员"});
+                    }
+                });
+            }
+        </script>
+        {%include 'side.html'%}
+        {%endblock%}

@@ -161,3 +161,9 @@ class Article(DBase):
         dict['next_id'] = next_id
         dict['next_headline'] = self.find_headline_by_id(next_id)
         return dict
+
+    #查询回复数量
+    def update_replycount(self,articleid):
+        row = dbsession.query(Article).filter_by(articleid=articleid).first()
+        row.replyCount +=1
+        dbsession.commit()
