@@ -1,21 +1,21 @@
 {%extends 'base.html'%} {#将当前页面继承至base.html模板中#}
 {%block content%}
 
-    <script type="text/javascript" src="/ue/ueditor.config.js"></script>
-    <script type="text/javascript" src="/ue/ueditor.all.min.js"></script>
-    <script type="text/javascript" src="/ue/lang/zh-cn/zh-cn.js"></script>
-    <script type="text/javascript">
-        var ue = UE.getEditor('content', {
-            initialFrameHeight: 400,
-            autoHeightEnabled: false,
-            serverUrl: "/uedit",
-            toolbars: [
-                ['source', 'undo', 'redo'],
-                ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'simpleupload', //单图上传
-                    'insertimage', 'cleardoc',]
-            ]
-        })
-    </script>
+<script type="text/javascript" src="/ue/ueditor.config.js"></script>
+<script type="text/javascript" src="/ue/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/ue/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('content', {
+        initialFrameHeight: 400,
+        autoHeightEnabled: false,
+        serverUrl: "/uedit",
+        toolbars: [
+            ['source', 'undo', 'redo'],
+            ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'simpleupload', //单图上传
+                'insertimage', 'cleardoc',]
+        ]
+    })
+</script>
 
 <!--标题-->
 <div class="container post" style="margin-top: 20px;padding: 0">
@@ -30,5 +30,67 @@
     <div class="col-12 ">
         <script id="content" type="text/plain"></script>
     </div>
+    <div class="row form-group" style="margin-top:20px;padding-top: 10px;">
+        <div class="col-4 row" style="text-align:left">
+            <label for="credit" class="col-4" style="margin-top: 5px">积分：</label>
+            <select class="form-control col-8" id="credit">
+                <option value="10">10分</option>
+                <option value="60">60分</option>
+                <option value="100">100分</option>
+                <option value="288">288分</option>
+                <option value="888">888分</option>
+                <option value="1688">1688分</option>
+            </select>
+        </div>
+        <label class="col-1"></label>
+        <button class="form-control btn-default col-2" onclick="doDraft()" style="text-align:center">保存草稿</button>
+        <label class="col-1"></label>
+        <div class="col-4">
+            {% if session.get('role')=='editor' or session.get('role')=='admin' %}
+            <button class="form-control btn-default col-12" onclick="doPublish()" style="text-align:center;background-color: #7735fa;color:white">发布</button>
+            {% else %}
+            <button class="form-control btn-primary col-12" onclick="doCommit()" style="text-align:center;background-color: #7735fa;color:white">投稿</button>
+            {% endif %}
+        </div>
+    </div>
 </div>
+<script>
+    function doPublish(){
+        var headline = $.trim($("#ATitle").val());
+        console.log( $("#credit").val())
+        // 纯文本,去除了html的标签
+        var contentPlain = UE.getEditor("content").getContentTxt();
+        if (headline.length <5){
+            bootbox.alert({'title': "错误提示", "message": "标题不得少于5个字"});
+            return false;
+        }
+        else if(contentPlain.length<100){
+            bootbox.alert({'title': "错误提示", "message": "内容不得少于100个字"});
+            return false;
+        }
+        var param ="headline="+headline;
+            param += "&content=" +encodeURIComponent(UE.getEditor("content").getContent());
+            param += "&credit=" + $("#credit").val();
+            param += "&drafted=0&checked=1";
+        $.post('/article',param,function(data){
+            if (data=='perm-denied'){
+                bootbox.alert({'title': "错误提示", "message": "权限不足"});
+            }
+            else if (data == 'post-fail'){
+                bootbox.alert({'title': "错误提示", "message": "文章发布失败，请联系管理员"});
+            }
+            else if (data.match(/^\d+$/)){
+                bootbox.alert({'title': "错误提示", "message": "文章发布成功"});
+                console.log(data)
+                setTimeout(function (){
+                    location.href = '/article/'+data;
+                },1000)
+            }
+            else{
+                bootbox.alert({'title': "错误提示", "message": "文章发布失败，可能权限不足"});
+            }
+        })
+
+    }
+</script>
 {%endblock%}

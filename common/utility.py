@@ -1,4 +1,5 @@
 import random, string
+import time
 from email.header import Header
 from email.mime.text import MIMEText
 from io import BytesIO
@@ -97,8 +98,52 @@ def model_join_list(result):
         list.append(dict)
     return list
 
-# code=gen_email_code()
-# print(code)
-# send_email('1159074129@qq.com',code)
-# imageCode().gen_text()
-# imageCode().draw_verify_code()
+
+def compress_image(source, dest, width):
+    from PIL import Image
+    im = Image.open(source)
+    x, y = im.size
+    # 等比例缩放
+    if x > width:
+        ys = int(y * width / x)
+        xs = width
+        temp = im.resize((xs,ys))
+        #将图片保存并使用80%的质量进行压缩
+        temp.save(dest,quality=80)
+    # 如果尺寸小于指定宽度则不断缩减尺寸，只压缩保存
+    else:
+        im.save(dest,quality=80)
+
+#解析图片中的url地址
+def parse_image_url(content):
+    import re
+    temp_list = re.findall('<img src="(.+?)"',content)
+    url_list=[]
+    for url in temp_list:
+        if url.lower().endswith('.gif'):
+            continue
+        url_list.append(url)
+    return url_list
+
+def download_image(url,dest):
+    import requests
+    response = requests.get(url)
+    #将图片以二进制方式保存到指定文件中
+    with open(file=dest,mode='wb') as file:
+        file.write(response.content)
+
+def generate_thumb(url_list):
+    for url in url_list:
+        if url.startswith('/upload/'):
+            filename=url.split('/')[-1]
+            #找到本地图片后对其进行压缩处理，设置缩略图像素为400
+            compress_image('./resource/upload/'+filename,
+                           './resource/thumb/' +filename,400)
+            return filename
+    url = url_list[0]
+    filename = url.split('/')[-1]
+    suffix =filename.split('.')[-1]
+    thumbname = time.strftime('%Y%m%d_%H%M%S.'+suffix)
+    download_image(url,'./resource/download/'+thumbname)
+    compress_image('./resource/download/'+thumbname,'./resource/thumb/'+thumbname,400)
+    return thumbname

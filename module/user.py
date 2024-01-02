@@ -22,17 +22,6 @@ class User(DBase):
     createTime = Column(DateTime, nullable=True, comment='数据新增时间')
     updateTime = Column(DateTime, nullable=True, comment='数据修改时间')
 
-    # def __init__(self, username, password, nickname, avatar, role, credit, createTime, updateTime):
-    #     super().__init__()
-    #     self.username = username
-    #     self.password = password
-    #     self.nickname = nickname
-    #     self.avatar = avatar
-    #     self.role = role
-    #     self.credit = credit
-    #     self.createTime = createTime
-    #     self.updateTime = updateTime
-
     def find_all(self):
         result = dbsession.query(User).all()
         print(result)
@@ -41,6 +30,11 @@ class User(DBase):
     # 查找用户是否以及注册
     def find_by_username(self, username):
         result = dbsession.query(User).filter_by(username=username).all()
+        return result
+
+    # 通过userid查找用户
+    def find_by_userid(self, userid):
+        result = dbsession.query(User).filter_by(userid=userid).all()
         return result
 
     # 实现注册，首次注册时用户只需输入用户名和密码

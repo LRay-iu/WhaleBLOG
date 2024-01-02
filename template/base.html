@@ -39,13 +39,13 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link " href="/">主页</a>
-                    <a class="nav-item nav-link " href="/article">博客</a>
+                    <a class="nav-item nav-link " href="/prepost">新建博客</a>
                     <a class="nav-item nav-link " href="/type/3-1">个人</a>
                     <a class="nav-item nav-link " href="/type/4-1">悄悄话</a>
                 </div>
                 <div class="navbar-nav ml-auto">
                     {% if session.get('islogin')=='true'%}
-                    <a class="nav-item nav-link " href="#">你好,{{session.get('nickname')}}</a>
+                    <a class="nav-item nav-link " href="#">你好,{{session.get('nickname')}}&nbsp;{{session.get('role')}}</a>
                     &nbsp;&nbsp;&nbsp;
                     <a class="nav-item nav-link " href="#">用户中心</a>
                     <a class="nav-item nav-link " href="/logout">注销</a>
@@ -68,7 +68,7 @@
 <!--底部导航栏-->
 <div class="text-muted container-fluid footer navBottom">
     <div class="container">
-        <p class="float-right" id="backToTopLink" onclick="gotoTop()"">
+        <p class="float-right" id="backToTopLink" onclick="gotoTop()">
         回到顶部
         </p>
         <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>

@@ -1,4 +1,9 @@
-from flask import Blueprint, request, render_template
+import os
+import time
+
+from flask import Blueprint, request, render_template, jsonify
+
+from common.utility import compress_image
 
 ueditor = Blueprint("ueditor", __name__)
 
@@ -8,24 +13,36 @@ def uedit():
     param = request.args.get('action')
     if request.method == 'GET' and param == 'config':
         return render_template('config.json')
-    else:
-        print(param)
-        return 'qwe'
+    elif request.method == 'POST' and request.args.get('action') == 'uploadimage':
+        f = request.files['upfile']
+        filename = f.filename
+        # 为传上来的文件生成统一用户名
+        suffix = filename.split('.')[-1]
+        # 保存原图到upload目录
+        f.save('./resource/upload/' + filename)
 
-# @ueditor.route('/uedit', methods=['POST'])
-# def upload():
-#     # 获取上传的文件对象
-#     upload_file = request.files['file']
-#
-#     # 在这里处理上传文件，可以保存到指定目录等操作
-#     # 示例：保存文件到指定目录
-#     upload_file.save('/resource/img/save/' + upload_file.filename)
-#
-#     # 返回上传成功的响应，这里可以返回给前端 UEditor 所需的数据格式
-#     # 示例：返回 JSON 格式的数据
-#     return {
-#         'state': 'SUCCESS',
-#         'url': '/path/to/save/' + upload_file.filename,  # 可以返回文件的 URL
-#         'title': upload_file.filename,
-#         'original': upload_file.filename
-#     }
+        newname = time.strftime('%Y%m%d_%H%M%S.' + suffix)
+        # # 对图片进行压缩，按照1200像素的宽度为准，并覆盖原始文件
+        source = './resource/upload/' + filename
+        dest = './resource/upload/' + newname
+        compress_image(source, dest, 720)
+
+        result = {}
+        result['state'] = 'SUCCESS'
+        result['url'] = f"upload/{newname}"
+        result['title'] = filename
+        result['original'] = filename
+        return jsonify(result)  # 以json数据可是返回，供前端引用
+    elif request.method == 'GET' and param == 'listimage':
+        list = []
+        filelist = os.listdir('./resource/upload')
+        for filename in filelist:
+            if filename.lower().endswith('.png') or filename.lower().endswith('.jpg') or filename.lower().endswith(
+                    '.bmp'):
+                list.append({'url': 'upload/%s' % filename})
+        result = {}
+        result['state'] = 'SUCCESS'
+        result['list'] = list
+        result['start'] = 0
+        result['total'] = 50
+        return jsonify(result)  # 以json数据可是返回，供前端引用

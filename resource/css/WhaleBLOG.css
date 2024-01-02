@@ -55,6 +55,7 @@ a:hover, a:active {
 .article-list .thumb {
     padding: 5px 10px 0 10px;
     margin: 0px;
+    margin-top: 13px;
 }
 
 .article-list .detail {
@@ -217,6 +218,7 @@ a:hover, a:active {
     padding: 20px 0px 10px 0px;
     line-height: 35px;
 }
+
 .article-reply {
     border-top: solid 2px #e5e5e5;
     border-radius: 0;
@@ -225,6 +227,7 @@ a:hover, a:active {
     padding: 12px 0px 10px 0px;
     line-height: 25px;
 }
+
 .article-comment .icon {
     display: flex;
     justify-content: center;
@@ -235,15 +238,18 @@ a:hover, a:active {
     width: 50px; /* 替换为你期望的宽度 */
     height: 50px; /* 替换为你期望的高度 */
 }
+
 .article-comment .reply-icon {
     display: flex;
     justify-content: center;
 }
+
 .article-comment .reply-icon img {
     /* 如果需要固定宽度和高度，可以添加以下样式 */
     width: 35px; /* 替换为你期望的宽度 */
     height: 35px; /* 替换为你期望的高度 */
 }
+
 .article-comment .comment {
     padding: 0px 0px;
 }

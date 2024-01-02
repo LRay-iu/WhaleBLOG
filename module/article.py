@@ -1,3 +1,5 @@
+import time
+from flask import session
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, func
 from main import app
 from common.database import dbconnect
@@ -162,8 +164,19 @@ class Article(DBase):
         dict['next_headline'] = self.find_headline_by_id(next_id)
         return dict
 
-    #查询回复数量
-    def update_replycount(self,articleid):
+    # 查询回复数量
+    def update_replycount(self, articleid):
         row = dbsession.query(Article).filter_by(articleid=articleid).first()
-        row.replyCount +=1
+        row.replyCount += 1
         dbsession.commit()
+
+    # 插入文章
+    def insert_article(self, headline, content, thumbnail, credit, drafted=0, checked=1):
+        now = time.strftime('%Y-%m-%d %H:%M:%S')
+        userid = session.get('userid')
+        article = Article(userid=userid, headline=headline, content=content,
+                          thumbnail=thumbnail, credit=credit, drafted=drafted,
+                          checked=checked, createTime=now, updateTime=now)
+        dbsession.add(article)
+        dbsession.commit()
+        return article.articleid  # 返回文章id，方便前端跳转
