@@ -1,10 +1,10 @@
 import re, hashlib
 
-from flask import Blueprint, make_response, session, request, redirect, url_for
+from flask import Blueprint, make_response, session, request, redirect, url_for, jsonify
 
 from common.utility import *
 from module.credit import Credit
-from module.user import User
+from module.user import User, dbsession
 
 user = Blueprint("user", __name__)
 
@@ -43,6 +43,7 @@ def login():
     username = request.form.get('username').strip()
     password = request.form.get('password').strip()
     vcode = request.form.get('vcode').lower().strip()
+    # en_username = encrypt_data(username,key)
     # 校验图形验证码是否正确
     if vcode != session.get('vcode'):
         return 'vcode-error'
@@ -70,7 +71,7 @@ def login():
         else:
             return 'log-fail'
 
-
+key = 'abcdefghijklmnop'
 # 新用户注册
 @user.route('/user', methods=['POST'])
 def register():
@@ -78,6 +79,7 @@ def register():
     username = request.form.get('username').strip()
     nickname = request.form.get('nickname').strip()
     password = request.form.get('password').strip()
+    # en_username = encrypt_data(username,key)
     ecode = request.form.get('ecode').strip()
     if ecode != session.get('ecode'):
         return 'ecode-error'
@@ -109,9 +111,39 @@ def logout():
     # response.delete_cookie('password')
     return response
 
+@user.route('/change')
+def dochange():
+    user = User()
+    users = user.find_all()
+    for user in users:
+        encrypted_username = encrypt_data(user.username,key)
+        encrypted_nickname = encrypt_data(user.nickname,key)
+        encrypted_role = encrypt_data(user.role,key)
+        print (encrypted_username)
+        print (encrypted_nickname)
+        print (encrypted_role)
+        user.username = encrypted_username
+        user.nickname = encrypted_nickname
+        user.role = encrypted_role
+        dbsession.commit()
+    return 'encrypted-done'
 
-
-
+@user.route('/rechange')
+def rechange():
+    user = User()
+    users = user.find_all()
+    for user in users:
+        decrypted_username = decrypt_data(user.username,key)
+        decrypted_nickname = decrypt_data(user.nickname,key)
+        decrypted_role = decrypt_data(user.role,key)
+        print (decrypted_username)
+        print (decrypted_nickname)
+        print (decrypted_role)
+        user.username = decrypted_username
+        user.nickname = decrypted_nickname
+        user.role = decrypted_role
+        dbsession.commit()
+    return 'decrypted-done'
 
 
 

@@ -1,3 +1,4 @@
+import base64
 import random, string
 import time
 from email.header import Header
@@ -147,3 +148,26 @@ def generate_thumb(url_list):
     download_image(url,'./resource/download/'+thumbname)
     compress_image('./resource/download/'+thumbname,'./resource/thumb/'+thumbname,400)
     return thumbname
+
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+def encrypt_data(data, key):
+    data = data.encode('utf-8')
+    aes = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+    en_data = aes.encrypt(pad(data, AES.block_size))
+    en_data = base64.b64encode(en_data).decode('utf-8')
+    return en_data
+
+def decrypt_data(data, key):
+    data = base64.b64decode(data)
+    aes = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+    den_data = unpad(aes.decrypt(data), AES.block_size)
+    return den_data
+
+
+# data = 'hello_world'
+# key = 'abcdefghijklmnop'
+# en_data = encrypt_data(data,key)
+# den_data = decrypt_data(en_data,key)
+# print('en_data:',en_data)
+# print('den_data:',den_data)
